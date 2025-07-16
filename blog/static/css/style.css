@@ -1,0 +1,11 @@
+header{
+    background-color: beige;
+}
+#offcanvasWithBackdrop{
+    background-color: beige;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#comment-icon{
+    text-decoration: none;
+}
