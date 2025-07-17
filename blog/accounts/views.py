@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from .forms import User_detailForm
-from django.contrib.auth import authenticate
 from user.models import User_details
 from django.contrib import messages
 # Create your views here.
@@ -10,14 +9,18 @@ def register(request):
     form=User_detailForm()
     if request.method=='POST':
         username=request.POST.get('username')
-        user=User_details.objects.filter(username=username).exists()
-        if not user:
+        email=request.POST.get('email')
+
+        if User_details.objects.filter(username=username).exists():
+            messages.error(request,'Username Already Exist')
+        elif User_details.objects.filter(email=email).exists():
+            messages.error(request,'Email Already Exist')
+        else:
             form=User_detailForm(request.POST,request.FILES)
             if  form.is_valid():
                 form.save()
                 return redirect('login_user')
-        else:
-            messages.error(request,'Username Already Exist')
+       
     return render(request,'accounts/register.html',{'form':form})
 
 def login_user(request):
@@ -39,4 +42,23 @@ def login_user(request):
     return render(request,'accounts/login_user.html')
 
 def Forgot_Password(request):
+    if request.method=='POST':
+        email=request.POST.get('email')
+        if User_details.objects.filter(email=email).exists():
+            user=User_details.objects.get(email=email)
+            return redirect('reset_password',user_id=user.id)
+        else:
+            messages.error(request,'Invalid Email')
+            return redirect('Forgot_Password')
     return render(request,'accounts/Forgot_Password.html')
+
+def reset_password(request,user_id):  
+    user=User_details.objects.get(id=user_id)     
+    if request.method=='POST':
+        password=request.POST.get('password')
+        cpassword=request.POST.get('cpassword')
+        if password == cpassword:
+            user.password=password 
+            user.save()
+            return redirect('login_user')
+    return render(request,'accounts/reset_password.html')
