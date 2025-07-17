@@ -16,6 +16,7 @@ class User_details(models.Model):
     profile_img=models.ImageField( upload_to='images/')
     phone_no=models.BigIntegerField()
     usertype=models.CharField( max_length=50,choices=USER_TYPE,default='user')
+    is_active=models.BooleanField(default=True)
 
     def __str__(self):
         return self.username

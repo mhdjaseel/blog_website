@@ -27,9 +27,10 @@ def login_user(request):
     if request.method=='POST':
         username=request.POST.get('username')
         password=request.POST.get('password')
-        user=User_details.objects.filter(username=username,password=password)
-        user_details=User_details.objects.get(username=username)
-        if user:
+        if User_details.objects.filter(username=username,password=password).exists():
+            user_details=User_details.objects.get(username=username)
+            request.session['user_id'] = user_details.id
+            request.session['username'] = user_details.username 
             if user_details.usertype =='user':
                 return redirect('user_post')
             else:
