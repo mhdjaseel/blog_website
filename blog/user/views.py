@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from .models import User_details,Post,Comment
 from accounts.forms import User_detailForm
 from.forms import PostForm
+from django.core.paginator import Paginator
+
 from django.db.models import Q
 # Create your views here.
 
@@ -41,8 +43,10 @@ def create_post(request):
 
 def post_view(request):
     user_posts=Post.objects.all().order_by('-created_at')
-
-    return render(request,'user/post_view.html',{'user_posts':user_posts})
+    paginator=Paginator(user_posts,2)
+    page_no=request.GET.get('page')
+    page_obj=paginator.get_page(page_no)
+    return render(request,'user/post_view.html',{'page_obj':page_obj})
 
 def edit_post(request,id):
     if Post.objects.filter(id=id).exists():
@@ -77,4 +81,5 @@ def add_comment(request,id):
             Comment.objects.create(post=post,text=text,posted_by=posted_by)
         return redirect('post_view')
     return render(request,'user/post_view.html')
+
 
