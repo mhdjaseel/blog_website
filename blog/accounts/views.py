@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from .forms import User_detailForm
 from user.models import User_details
 from django.contrib import messages
+from django.contrib.auth import logout
+
 # Create your views here.
 
 
@@ -31,8 +33,9 @@ def login_user(request):
             user_details=User_details.objects.get(username=username)
             request.session['user_id'] = user_details.id
             request.session['username'] = user_details.username 
+            request.session['profile_img']=user_details.profile_img.url
             if user_details.usertype =='user':
-                return redirect('user_post')
+                return redirect('post_view')
             else:
                 return redirect('admin_home')    
 
@@ -63,3 +66,7 @@ def reset_password(request,user_id):
             user.save()
             return redirect('login_user')
     return render(request,'accounts/reset_password.html')
+
+def user_logout(request):
+    logout(request)
+    return redirect('login_user')

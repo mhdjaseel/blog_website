@@ -1,8 +1,53 @@
 {% extends "user/layout.html" %}
-
 {% load static %}
 
 {% block content %}
-    <h1>post</h1>
+<div class="container mt-5">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8 mt-5">
+        <div class="text-end mb-3">
+      <h2 class="text-center">Your Posts</h2>
 
-{% endblock content %}
+        <a class="btn btn-primary" href="{% url 'create_post' %}">Create Post</a>
+        </div>
+      {% for post in user_posts %}
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+        </div>
+
+        <img
+          src="{{ post.image.url }}"
+          class="card-img-top"
+          style="height: 250px; object-fit: cover"
+          alt="Post image"
+        />
+
+        <div class="card-body">
+
+          <p class="card-text">{{ post.description }}</p>
+          <p class="text-muted">{{ post.created_at|date:"M d, Y H:i" }}</p>
+
+          <!-- Comment Toggle -->
+          <a class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" href="#comments-{{ post.id }}" role="button" aria-expanded="false" aria-controls="comments-{{ post.id }}">
+            <i class="bi bi-chat"></i> Comments
+          </a>
+          <a type="button" class="btn btn-success btn-sm ms-3" href="{% url "edit_post" post.id %}">Edit Post</a>
+          <!-- Collapsible Comments Section -->
+          <div class="collapse mt-2" id="comments-{{ post.id }}">
+            <div class="card card-body">
+              {% comment %} Replace with dynamic comments later {% endcomment %}
+              <div class="comment-section">
+                <h6>username</h6>
+                <p>This is a great post!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center text-muted">You haven't posted anything yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -19,12 +19,12 @@
     <title>Blog website</title>
   </head>
   <body>
-    <header>
+    <header class=" fixed-top">
       <div class="container-fluid">
         <div class="row p-3">
           <div class="col-md-6 col-2 col-sm-5">
             
-           <h4 data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" ><img class="rounded-circle" src="{% static 'p1.png' %}" alt="" width="50px" height="50px">  {{request.session.username}}</h4>
+           <h4 data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" ><img class="rounded-circle" src="{{request.session.profile_img}}" alt="" width="50px" height="50px">  {{request.session.username}}</h4>
            <div
               class="offcanvas offcanvas-start"
               tabindex="-1"
@@ -32,7 +32,7 @@
               aria-labelledby="offcanvasWithBackdropLabel"
             >
               <div class="offcanvas-header">
-                <img class="rounded-circle" src="{% static 'p1.png' %}" alt="" width="100px" height="100px">
+                <img class="rounded-circle" src="{{request.session.profile_img}}" alt="" width="100px" height="100px">
                 <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">
                  {{request.session.username}}
                 </h5>
@@ -49,7 +49,7 @@
                         <a class="nav-link active" aria-current="page" href="{% url "post_view" %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url "user_post" %}">Post</a>
+                        <a class="nav-link active" aria-current="page" href="{% url "user_post" %}">My Post</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "create_post" %}">Create Post</a>
@@ -58,15 +58,15 @@
                         <a class="nav-link" href="{% url "user_profile" %}">Edit Account</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <a class="nav-link" href="{% url "user_logout" %}">Logout</a>
                     </li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="col-md-6 col-10 col-sm-7">
-        <form class="d-flex justify-content-end">
-        <input class="form-control me-2 w-25" type="search" placeholder="Search" aria-label="Search">
+        <form class="d-flex justify-content-end" method="get" action="{% url "search" %}">
+        <input class="form-control me-2 w-25" type="search" placeholder="Search  by author" name="q" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
           </div>

@@ -1,3 +1,5 @@
+
+
 {% extends "user/layout.html" %}
 {% load static %}
 
@@ -5,24 +7,25 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8 mt-4">
-      <h2 class="text-center mt-5">Today's Posts</h2>
+    {% if post %}
+      <h2 class="text-center mt-5">searched posts</h2>
 
-      {% for post in user_posts %}
+      {% for p in post %}
       <div class="card mb-4 shadow-sm mt-3">
         <div class="card-header">
-          <strong>Author : {{ post.author.username }}</strong>
+          <strong>Author : {{ p.author.username }}</strong>
         </div>
 
         <img
-          src="{{ post.image.url }}"
+          src="{{ p.image.url }}"
           class="card-img-top"
           style="height: 250px; object-fit: cover"
           alt="Post image"
         />
 
         <div class="card-body">
-          <p class="card-text">{{ post.description }}</p>
-          <p class="text-muted">{{ post.created_at|date:"M d, Y H:i" }}</p>
+          <p class="card-text">{{ p.description }}</p>
+          <p class="text-muted">{{ p.created_at|date:"M d, Y H:i" }}</p>
 
           <!-- Comment Toggle -->
           <a class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" href="#comments-{{ post.id }}" role="button" aria-expanded="false" aria-controls="comments-{{ post.id }}">
@@ -42,10 +45,12 @@
           </div>
         </div>
       </div>
-      {% empty %}
-      <p class="text-center text-muted">You haven't posted anything yet.</p>
+
       {% endfor %}
+    {% endif %}
+
     </div>
   </div>
 </div>
-{% endblock %}
+{% endblock content %}
+

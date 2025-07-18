@@ -1,8 +1,52 @@
-{% extends "user/layout.html" %}
+{% extends "user/layout.html" %} {% load static %} {% block content %}
+<div class="container">
+  <div class="row">
+    <h3 class="text-center mt-5">Create Post Here</h3>
+    <div class="col-md-6 mx-auto">
+      <form action="#" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="">Upload a Post</label>
+        <input
+          type="file"
+          id="inputImg"
+          class="form-control mt-2 mb-2"
+          name="image"
+          onchange="fileUpload()"
+        />
+        <label for="">Description</label>
+        <textarea
+          name="description"
+          class="form-control mt-2"
+          placeholder="About Your Post..."
+          style="height: 50px"
+        ></textarea>
+        <img
+          class="form-control mt-2"
+          id="img"
+          alt=""
+          width="50px"
+          height="200px"
+        />
+        <button class="btn btn-primary mt-2" type="submit">Post</button>
+      </form>
+    </div>
+  </div>
+</div>
 
-{% load static %}
+<script>
+  function fileUpload() {
+    const input = document.getElementById("inputImg");
+    const image = document.getElementById("img");
+    const file = input.files[0];
 
-{% block content %}
-    <h1>create</h1>
-
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        image.src = e.target.result;
+        image.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
 {% endblock content %}
