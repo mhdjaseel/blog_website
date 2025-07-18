@@ -33,10 +33,19 @@
           <!-- Collapsible Comments Section -->
           <div class="collapse mt-2" id="comments-{{ post.id }}">
             <div class="card card-body">
-              {% comment %} Replace with dynamic comments later {% endcomment %}
-              <div class="comment-section">
-                <h6>username</h6>
-                <p>This is a great post!</p>
+              {% if post.comments %}
+                {% for comment in post.comments.all %}
+                <strong>{{comment.posted_by}}</strong>
+                <p>{{comment.text}}</p>
+                {% endfor %}
+              {% endif %}
+              <div class="comment-section d-block">
+                <form action="{% url "add_comment" post.id%}" method="post">
+                  {% csrf_token %}
+                  <textarea name="comment-text" rows="2" cols="30" placeholder="add a comment"></textarea>
+                  <button class="btn btn-primary btn-sm mb-5 ms-4" type="submit" >post</button>
+                </form>
+
               </div>
             </div>
           </div>

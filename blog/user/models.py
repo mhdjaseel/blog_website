@@ -28,6 +28,7 @@ class Post(models.Model):
     created_at=models.DateTimeField(default=timezone.now)
 
 class Comment(models.Model):
-    post=models.ForeignKey(Post, on_delete=models.CASCADE)
+    post=models.ForeignKey(Post,related_name='comments' ,on_delete=models.CASCADE)
+    posted_by=models.CharField( max_length=50,default='abcd')
     text=models.TextField()
     

@@ -41,6 +41,7 @@ def create_post(request):
 
 def post_view(request):
     user_posts=Post.objects.all().order_by('-created_at')
+
     return render(request,'user/post_view.html',{'user_posts':user_posts})
 
 def edit_post(request,id):
@@ -66,3 +67,14 @@ def search(request):
         'post':post
     }
     return render(request,'user/search.html',context)
+
+def add_comment(request,id):
+    post=Post.objects.get(id=id)
+    if request.method=='POST':
+        text=request.POST.get('comment-text')
+        if text:
+            posted_by=request.session.get('username')
+            Comment.objects.create(post=post,text=text,posted_by=posted_by)
+        return redirect('post_view')
+    return render(request,'user/post_view.html')
+
