@@ -38,7 +38,7 @@ def login_user(request):
             if user_details.usertype =='user':
                 return redirect('post_view')
             else:
-                return redirect('admin_home')    
+                return redirect('users_list')    
 
         else:
             messages.error(request,'invalid credentials')

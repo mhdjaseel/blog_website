@@ -1,0 +1,54 @@
+{% extends "admin/admin_home.html" %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row mt-5">
+                <h3 class="mt-5">{{user}} ' post</h3>
+            <div class="col-md-8 mt-5 d-flex justify-content-around ">
+                {% for post in user_post %}
+                <div class="card-body border border-2 w-50 p-2 mb-3 ms-3">
+                    <h5>Post Id : {{post.id}}</h5>
+                    <img src="{{post.image.url}}" alt="no pic" width="300px;" height="200px;">
+                    <p>Description: {{post.description}}</p>
+                    {% if post.comments %}
+                    <p> comments : {{post.comments.all|length}} </p>
+                        <div class="comment-section border border-1 p-2">
+                        {% for comment in post.comments.all  %}
+                            <h6>Posted by : {{comment.posted_by}}</h6>
+                            <p>{{comment.text}}</p>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                         <p> No comments </p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="row">
+                <h3 class="mt-5">{{user}} ' comments</h3>
+                <div class="col-md-6">
+                    <div class="card">
+
+                            {% if user_comments %}
+                                {% for comment in user_comments.all %}
+                                    <div class="card-body">
+                                        <div class="comments border border-1 p-2">
+                                        <h5>Post ID {{comment.post.id}}</h5>
+                                        <img src="{{comment.post.image.url}}" alt="" width="300px;" height="200px;">
+                                        <p>comment : {{comment.text}}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
