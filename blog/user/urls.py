@@ -11,7 +11,7 @@ path('search/',views.search,name='search'),
 path('add_comment/<int:id>',views.add_comment,name='add_comment'),
 path('comment_delete/<int:id>',views.comment_delete,name='comment_delete'),
 path('delete_post/<int:id>',views.delete_post,name='delete_post'),
-
+path('user_is_blocked',views.user_is_blocked,name='user_is_blocked')
 
     
 ]

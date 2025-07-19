@@ -32,13 +32,16 @@ def login_user(request):
         password=request.POST.get('password')
         if User_details.objects.filter(username=username,password=password).exists():
             user_details=User_details.objects.get(username=username)
-            request.session['user_id'] = user_details.id
-            request.session['username'] = user_details.username 
-            request.session['profile_img']=user_details.profile_img.url
-            if user_details.usertype =='user':
-                return redirect('post_view')
+            if user_details.is_active == False:
+                return redirect('user_is_blocked')
             else:
-                return redirect('users_list')    
+                request.session['user_id'] = user_details.id
+                request.session['username'] = user_details.username 
+                request.session['profile_img']=user_details.profile_img.url
+                if user_details.usertype =='user':
+                    return redirect('post_view')
+                else:
+                    return redirect('users_list')    
 
         else:
             messages.error(request,'invalid credentials')
@@ -74,3 +77,4 @@ def reset_password(request,user_id):
 def user_logout(request):
     logout(request)
     return redirect('login_user')
+

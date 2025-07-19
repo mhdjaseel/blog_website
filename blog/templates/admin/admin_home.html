@@ -49,11 +49,11 @@
                         <a class="nav-link active" aria-current="page" href="{% url "users_list" %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url "user_post" %}">blocked Users</a>
+                        <a class="nav-link active" aria-current="page" href="{% url "blocked_list" %}">blocked Users</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Edit Account</a>
+                        <a class="nav-link" href="{% url "blog_posts" %}">Posts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "user_logout" %}">Logout</a>
@@ -63,8 +63,8 @@
             </div>
           </div>
           <div class="col-md-6 col-10 col-sm-7">
-        <form class="d-flex justify-content-end" method="get" action="{% url "search" %}">
-        <input class="form-control me-2 w-25" type="search" placeholder="Search  by author" name="q" aria-label="Search">
+        <form class="d-flex justify-content-end" method="get" action="{% url "search_users" %}">
+        <input class="form-control me-2 w-25" type="search" placeholder="Search  by username" name="q" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
           </div>

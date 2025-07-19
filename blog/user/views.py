@@ -104,3 +104,6 @@ def comment_delete(request,id):
     if comment:
         comment.delete()
         return redirect('post_view')
+    
+def user_is_blocked(request):
+    return render(request,'user/user_is_blocked.html')
