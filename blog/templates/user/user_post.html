@@ -31,14 +31,19 @@
           <a class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" href="#comments-{{ post.id }}" role="button" aria-expanded="false" aria-controls="comments-{{ post.id }}">
             <i class="bi bi-chat"></i> Comments
           </a>
-          <a type="button" class="btn btn-success btn-sm ms-3" href="{% url "edit_post" post.id %}">Edit Post</a>
+          <a type="button" class="btn btn-success btn-sm ms-3" href="{% url "edit_post" post.id %}">Edit </a>
+          <a type="button" class="btn btn-danger btn-sm ms-3" href="{% url "delete_post" post.id %}">Delete </a>
           <!-- Collapsible Comments Section -->
           <div class="collapse mt-2" id="comments-{{ post.id }}">
             <div class="card card-body">
               {% if post.comments %}
                 {% for comment in post.comments.all %}
                 <strong>{{comment.posted_by}}</strong>
-                <p>{{comment.text}}</p>
+                <p>{{comment.text}}
+                  {% if comment.posted_by == request.session.username %}
+                  <a class="btn btn-danger btn-sm ms-5" type="button" href="{% url "comment_delete" comment.id %}">delete</a>
+                  {% endif %}
+                </p>
                 {% endfor %}
               {% endif %}
               <div class="comment-section">

@@ -36,7 +36,12 @@
               {% if post.comments %}
                 {% for comment in post.comments.all %}
                 <strong>{{comment.posted_by}}</strong>
-                <p>{{comment.text}}</p>
+                <p>{{comment.text}}
+                  {% if comment.posted_by == request.session.username %}
+                  <a class="btn btn-danger btn-sm ms-5" type="button" href="{% url "comment_delete" comment.id %}">delete</a>
+                  {% endif %}
+                </p>
+
                 {% endfor %}
               {% endif %}
               <div class="comment-section d-block">
@@ -45,7 +50,6 @@
                   <textarea name="comment-text" rows="2" cols="30" placeholder="add a comment"></textarea>
                   <button class="btn btn-primary btn-sm mb-5 ms-4" type="submit" >post</button>
                 </form>
-
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ from .forms import User_detailForm
 from user.models import User_details
 from django.contrib import messages
 from django.contrib.auth import logout
+from user.decarotors import custom_login_required
 
 # Create your views here.
 
@@ -67,6 +68,9 @@ def reset_password(request,user_id):
             return redirect('login_user')
     return render(request,'accounts/reset_password.html')
 
+
+
+@custom_login_required
 def user_logout(request):
     logout(request)
     return redirect('login_user')

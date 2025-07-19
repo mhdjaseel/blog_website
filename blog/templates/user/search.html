@@ -39,7 +39,11 @@
               {% if p.comments %}
                 {% for comment in p.comments.all %}
                 <strong>{{comment.posted_by}}</strong>
-                <p>{{comment.text}}</p>
+                <p>{{comment.text}}
+                  {% if comment.posted_by == request.session.username %}
+                  <a class="btn btn-danger btn-sm ms-5" type="button" href="{% url "comment_delete" comment.id %}">delete</a>
+                  {% endif %}
+                </p>
                 {% endfor %}
               {% endif %}
               <div class="comment-section d-block">

@@ -3,18 +3,19 @@ from .models import User_details,Post,Comment
 from accounts.forms import User_detailForm
 from.forms import PostForm
 from django.core.paginator import Paginator
-
+from .decarotors import custom_login_required
 from django.db.models import Q
 # Create your views here.
 
 
-
+@custom_login_required
 def user_post(request):
     user_id=request.session.get('user_id')
     if user_id:
         user_posts=Post.objects.filter(author_id=user_id).order_by('-created_at')
     return render(request,'user/user_post.html',{'user_posts':user_posts})
 
+@custom_login_required
 def user_profile(request):
     user_id=request.session.get('user_id')
     user=User_details.objects.get(id=user_id)
@@ -30,6 +31,7 @@ def user_profile(request):
 
     return render(request,'user/user_profile.html',{'form':form})
 
+@custom_login_required
 def create_post(request):
     if request.method=='POST':
         username=request.session.get('username')
@@ -41,6 +43,7 @@ def create_post(request):
             return redirect('user_post')
     return render(request,'user/create_post.html')
 
+@custom_login_required
 def post_view(request):
     user_posts=Post.objects.all().order_by('-created_at')
     paginator=Paginator(user_posts,2)
@@ -48,6 +51,7 @@ def post_view(request):
     page_obj=paginator.get_page(page_no)
     return render(request,'user/post_view.html',{'page_obj':page_obj})
 
+@custom_login_required
 def edit_post(request,id):
     if Post.objects.filter(id=id).exists():
         post=Post.objects.get(id=id)
@@ -60,6 +64,14 @@ def edit_post(request,id):
             user_posts=PostForm(instance=post)
     return render(request,'user/edit_post.html',{'user_posts':user_posts})
 
+@custom_login_required
+def delete_post(request,id):
+    if Post.objects.filter(id=id).exists():
+        post=Post.objects.get(id=id)
+        post.delete()
+    return redirect('user_post')
+
+@custom_login_required
 def search(request):
     query=''
     post=[]
@@ -72,6 +84,8 @@ def search(request):
     }
     return render(request,'user/search.html',context)
 
+
+@custom_login_required
 def add_comment(request,id):
     post=Post.objects.get(id=id)
     if request.method=='POST':
@@ -83,3 +97,10 @@ def add_comment(request,id):
     return render(request,'user/post_view.html')
 
 
+
+@custom_login_required
+def comment_delete(request,id):
+    comment=Comment.objects.get(id=id)
+    if comment:
+        comment.delete()
+        return redirect('post_view')
