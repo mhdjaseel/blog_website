@@ -13,7 +13,7 @@ class User_details(models.Model):
     l_name=models.CharField( max_length=50)
     email=models.EmailField( max_length=254)
     password=models.CharField( max_length=50)
-    profile_img=models.ImageField( upload_to='images/')
+    profile_img=models.ImageField( upload_to='images/',null=True, blank=True)
     phone_no=models.BigIntegerField()
     usertype=models.CharField( max_length=50,choices=USER_TYPE,default='user')
     is_active=models.BooleanField(default=True)
@@ -23,7 +23,7 @@ class User_details(models.Model):
     
 class Post(models.Model):
     author=models.ForeignKey(User_details,on_delete=models.CASCADE)
-    image=models.ImageField( upload_to='pictures/')
+    image=models.ImageField( upload_to='pictures/',null=True, blank=True)
     description=models.TextField()
     created_at=models.DateTimeField(default=timezone.now)
 
